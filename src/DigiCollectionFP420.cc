@@ -8,6 +8,7 @@
 //#include "SimRomanPot/DataFormats/interface/DigiCollectionFP420.h"
 #include "DataFormats/FP420Digi/interface/DigiCollectionFP420.h"
 
+#include <algorithm>
 //#include <iostream>
 //#define mydigidebug
 
@@ -25,7 +26,7 @@ void DigiCollectionFP420::put(Range input, unsigned int detID) {
   DigiCollectionFP420::ContainerIterator sort_begin = input.first;
   DigiCollectionFP420::ContainerIterator sort_end = input.second;
 #ifdef mydigidebug
-  std::cout <<"   !!!!!!!!!!!!!!!!    DigiCollectionFP420:: !!!!  put !!!!           start " << std::endl;
+  std::cout <<"   !!!!!!!!!!!!!!!!    DigiCollectionFP420:: !!!!  put !!!!  start detID=" << detID << std::endl;
 #endif
   for ( ;sort_begin != sort_end; ++sort_begin ) {
     temporary.push_back(*sort_begin);
@@ -51,7 +52,13 @@ void DigiCollectionFP420::put(Range input, unsigned int detID) {
   } //for
   
   // since we start from 0, then the last element will be size-1
-  inputRange.second = container_.size()-1;
+  if(container_.size() != 0) {
+    inputRange.second = container_.size()-1;
+  }
+  else {
+    inputRange.first = container_.size();
+    inputRange.second = container_.size();
+  }
 #ifdef mydigidebug
   std::cout <<"digi put: container_.size() = " << container_.size() << std::endl;
   std::cout <<"digi put:  inputRange.first = " << inputRange.first << std::endl;
